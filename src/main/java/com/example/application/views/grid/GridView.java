@@ -1,18 +1,17 @@
 package com.example.application.views.grid;
 
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.page.PendingJavaScriptResult;
+import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.PageTitle;
-import com.example.application.views.main.MainView;
 
-@Route(value = "", layout = MainView.class)
-@PageTitle("Grid")
+@Route(value = "")
 public class GridView extends Div {
-
     public GridView() {
-        addClassName("grid-view");
-        add(new Text("Content placeholder"));
+        CustomGrid grid = new CustomGrid();
+        add(grid);
     }
-
 }
