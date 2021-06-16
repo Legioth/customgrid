@@ -13,5 +13,13 @@ public class GridView extends Div {
     public GridView() {
         CustomGrid grid = new CustomGrid();
         add(grid);
+
+        add(new Button("Toggle", click -> {
+            if (grid.getParent().isPresent()) {
+                remove(grid);
+            } else {
+                addComponentAsFirst(grid);
+            }
+        }));
     }
 }

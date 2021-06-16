@@ -27,6 +27,7 @@ import elemental.json.JsonValue;
 
 @NpmPackage(value = "@vaadin/vaadin-grid", version = "5.7.13")
 @JsModule("@vaadin/vaadin-grid")
+@JsModule("./grid.ts")
 @Tag("vaadin-grid")
 public class CustomGrid extends Component {
     @DomEvent("active-item-changed")
@@ -58,11 +59,13 @@ public class CustomGrid extends Component {
         ComponentUtil.addListener(this, ActiveItemChangedEvent.class, event -> {
             if (event.id == null) {
                 Notification.show("Deselect");
-                getElement().executeJs("this.selectedItems = []");
             } else {
                 Notification.show("Select " + event.id);
-                getElement().executeJs("this.selectedItems = [this.items[$0]]", event.id);
             }
+        });
+
+        addAttachListener(attachEvent -> {
+            getElement().executeJs("window.initGrid(this)");
         });
     }
 }
