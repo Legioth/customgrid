@@ -30,6 +30,18 @@ import elemental.json.JsonValue;
 @Tag("vaadin-grid")
 public class CustomGrid extends Component {
     public CustomGrid() {
-        
+        Arrays.asList("id", "value").forEach(path -> {
+            Element col = new Element("vaadin-grid-column");
+            col.setAttribute("path", path);
+            getElement().appendChild(col);
+        });
+
+        JsonArray items = IntStream.range(0, 100).mapToObj(index -> {
+            JsonObject row = Json.createObject();
+            row.put("id", index);
+            row.put("value", "Value " + index);
+            return row;
+        }).collect(JsonUtils.asArray());
+        getElement().setPropertyJson("items", items);
     }
 }
