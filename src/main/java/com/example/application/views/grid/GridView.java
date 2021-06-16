@@ -25,5 +25,13 @@ public class GridView extends Div {
         add(new Button("Scroll to 42", click -> {
             grid.getElement().callJsFunction("scrollToIndex", 42);
         }));
+
+        add(new Button("Get width", click -> {
+            PendingJavaScriptResult result = grid.getElement()
+                    .executeJs("return this.offsetWidth");
+            result.then(Double.class, width -> {
+                Notification.show("Width: " + width);
+            });
+        }));
     }
 }
