@@ -68,4 +68,9 @@ public class CustomGrid extends Component {
             getElement().executeJs("window.initGrid(this)");
         });
     }
+
+    @ClientCallable
+    void requestRows(int page, int pageSize) {
+        Notification.show("Request " + page + ", " + pageSize);
+    }
 }
