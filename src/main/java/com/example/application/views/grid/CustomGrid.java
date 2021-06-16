@@ -29,6 +29,17 @@ import elemental.json.JsonValue;
 @JsModule("@vaadin/vaadin-grid")
 @Tag("vaadin-grid")
 public class CustomGrid extends Component {
+    @DomEvent("active-item-changed")
+    public static class ActiveItemChangedEvent extends ComponentEvent<CustomGrid> {
+        private Integer id;
+
+        public ActiveItemChangedEvent(CustomGrid source, boolean fromClient,
+                @EventData("event.detail.value?.id") Integer id) {
+            super(source, fromClient);
+            this.id = id;
+        }
+    }
+
     public CustomGrid() {
         Arrays.asList("id", "value").forEach(path -> {
             Element col = new Element("vaadin-grid-column");
@@ -43,5 +54,13 @@ public class CustomGrid extends Component {
             return row;
         }).collect(JsonUtils.asArray());
         getElement().setPropertyJson("items", items);
+
+        ComponentUtil.addListener(this, ActiveItemChangedEvent.class, event -> {
+            if (event.id == null) {
+                Notification.show("Deselect");
+            } else {
+                Notification.show("Select " + event.id);
+            }
+        });
     }
 }
