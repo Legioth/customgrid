@@ -21,5 +21,9 @@ public class GridView extends Div {
                 addComponentAsFirst(grid);
             }
         }));
+
+        add(new Button("Scroll to 42", click -> {
+            grid.getElement().callJsFunction("scrollToIndex", 42);
+        }));
     }
 }
