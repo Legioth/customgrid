@@ -48,14 +48,6 @@ public class CustomGrid extends Component {
             getElement().appendChild(col);
         });
 
-        JsonArray items = IntStream.range(0, 100).mapToObj(index -> {
-            JsonObject row = Json.createObject();
-            row.put("id", index);
-            row.put("value", "Value " + index);
-            return row;
-        }).collect(JsonUtils.asArray());
-        getElement().setPropertyJson("items", items);
-
         ComponentUtil.addListener(this, ActiveItemChangedEvent.class, event -> {
             if (event.id == null) {
                 Notification.show("Deselect");
@@ -70,7 +62,14 @@ public class CustomGrid extends Component {
     }
 
     @ClientCallable
-    void requestRows(int page, int pageSize) {
-        Notification.show("Request " + page + ", " + pageSize);
+    JsonArray requestRows(int page, int pageSize) {
+        int start = page * pageSize;
+        JsonArray items = IntStream.range(start, start + pageSize).mapToObj(index -> {
+            JsonObject row = Json.createObject();
+            row.put("id", index);
+            row.put("value", "Value " + index);
+            return row;
+        }).collect(JsonUtils.asArray());
+        return items;
     }
 }

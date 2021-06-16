@@ -2,7 +2,7 @@ import type { GridElement } from "@vaadin/vaadin-grid";
 
 interface CustomGrid extends GridElement {
   $server: {
-    requestRows: (page: number, pageSize: number) => void;
+    requestRows: (page: number, pageSize: number) => Promise<unknown[]>;
   };
 }
 
@@ -16,7 +16,8 @@ const inited = new WeakSet();
     grid.selectedItems = [event.detail.value];
   });
 
-  grid.dataProvider = (params, callback) => {
-    grid.$server.requestRows(params.page, params.pageSize);
+  grid.dataProvider = async (params, callback) => {
+    const items = await grid.$server.requestRows(params.page, params.pageSize);
+    callback(items, 10000);
   };
 };
