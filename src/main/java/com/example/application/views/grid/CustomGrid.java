@@ -58,8 +58,10 @@ public class CustomGrid extends Component {
         ComponentUtil.addListener(this, ActiveItemChangedEvent.class, event -> {
             if (event.id == null) {
                 Notification.show("Deselect");
+                getElement().executeJs("this.selectedItems = []");
             } else {
                 Notification.show("Select " + event.id);
+                getElement().executeJs("this.selectedItems = [this.items[$0]]", event.id);
             }
         });
     }
