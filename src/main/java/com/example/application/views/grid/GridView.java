@@ -33,5 +33,11 @@ public class GridView extends Div {
                 Notification.show("Width: " + width);
             });
         }));
+
+        Element input = new Element("input");
+        getElement().appendChild(input);
+        input.addPropertyChangeListener("value", "change", event -> {
+            Notification.show("Event: " + input.getProperty("value"));
+        });
     }
 }
